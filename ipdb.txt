@@ -1,0 +1,76 @@
+# CdnHunter IP 段库
+# 格式：<CIDR> <厂商名>
+# Cloudflare 段来自官方公开列表 https://www.cloudflare.com/ips-v4
+# 其余厂商段为社区整理，会随厂商调整而变化，请定期更新本文件
+# 更新方式：直接编辑本文件后重新编译，或用 -ipdb 指定外部文件
+
+# ---------- Cloudflare（官方）----------
+173.245.48.0/20 Cloudflare
+103.21.244.0/22 Cloudflare
+103.22.200.0/22 Cloudflare
+103.31.4.0/22 Cloudflare
+141.101.64.0/18 Cloudflare
+108.162.192.0/18 Cloudflare
+190.93.240.0/20 Cloudflare
+188.114.96.0/20 Cloudflare
+197.234.240.0/22 Cloudflare
+198.41.128.0/17 Cloudflare
+162.158.0.0/15 Cloudflare
+104.16.0.0/13 Cloudflare
+104.24.0.0/14 Cloudflare
+172.64.0.0/13 Cloudflare
+131.0.72.0/22 Cloudflare
+
+# ---------- Fastly ----------
+151.101.0.0/16 Fastly
+199.232.0.0/16 Fastly
+23.235.32.0/20 Fastly
+43.249.72.0/22 Fastly
+103.244.50.0/24 Fastly
+146.75.0.0/16 Fastly
+167.109.80.0/20 Fastly
+199.27.128.0/21 Fastly
+185.31.16.0/22 Fastly
+
+# ---------- AWS CloudFront ----------
+13.32.0.0/15 AWS-CloudFront
+13.224.0.0/14 AWS-CloudFront
+52.84.0.0/15 AWS-CloudFront
+54.192.0.0/16 AWS-CloudFront
+54.230.0.0/16 AWS-CloudFront
+54.239.128.0/18 AWS-CloudFront
+99.84.0.0/16 AWS-CloudFront
+99.86.0.0/16 AWS-CloudFront
+108.156.0.0/14 AWS-CloudFront
+143.204.0.0/16 AWS-CloudFront
+205.251.192.0/19 AWS-CloudFront
+52.46.0.0/18 AWS-CloudFront
+18.238.0.0/15 AWS-CloudFront
+
+# ---------- Google Cloud CDN ----------
+34.96.0.0/14 Google-CDN
+34.120.0.0/13 Google-CDN
+142.250.0.0/15 Google-CDN
+172.217.0.0/16 Google-CDN
+216.58.192.0/19 Google-CDN
+74.125.0.0/16 Google-CDN
+
+# ---------- Sucuri ----------
+192.124.249.0/24 Sucuri
+185.15.216.0/22 Sucuri
+
+# ---------- Imperva / Incapsula ----------
+45.64.64.0/22 Imperva
+107.154.0.0/16 Imperva
+199.83.128.0/21 Imperva
+45.60.0.0/16 Imperva
+
+# ---------- StackPath / MaxCDN ----------
+151.139.0.0/16 StackPath
+68.232.32.0/20 StackPath
+
+# ---------- CDN77 ----------
+185.93.0.0/16 CDN77
+
+# ---------- KeyCDN ----------
+169.60.0.0/16 KeyCDN
