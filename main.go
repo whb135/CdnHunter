@@ -377,10 +377,22 @@ func judge(r *MultiResolver, db *IPDB, hc *HTTPOracle, host string, showHeaders 
 	if validServers >= 2 {
 		distinct := uniqSorted(sigs)
 		if len(distinct) > 1 {
-			// 豁免：CNAME 链尾仍在目标自身的注册域内，更像自建负载均衡/多出口，不是第三方 CDN
+			// 豁免一：CNAME 链尾仍在目标自身的注册域内，更像自建负载均衡/多出口，不是第三方 CDN
 			// 典型反例：www.pku.edu.cn → www.lb.pku.edu.cn，多 DNS 不一致但属于北大自己的 GSLB
 			if len(res.Chain) > 0 && sameRegistrableDomain(host, res.Chain[len(res.Chain)-1]) {
 				res.Reason = "多 DNS 不一致，但 CNAME 仍在自身域内（判为自建负载均衡）"
+				return res
+			}
+			// 豁免二：完全没有 CNAME、解析出的 IP 又都不在 CDN 段库里。
+			// 这是自建 GSLB 双线/多出口最典型的形态，例如 *.lb.pku.edu.cn 返回
+			// 162.105.x（CERNET 出口）与 111.205.x / 115.27.x（另一条出口）两组 A 记录。
+			// 真正的第三方 CDN 要么有 CNAME（维度一已抓），要么 IP 落在已知段（维度二已抓），
+			// 因此「无 CNAME + IP 全不在 CDN 段 + 多 DNS 不一致」基本都是自建调度，不该算 CDN。
+			//
+			// 但必须限定为 4 段以上的深层子域：裸域（github.com）和 3 段域名（www.bilibili.com）
+			// 常是云厂商多区域 anycast，IP 虽不在 CDN 库里但属于共享云资源，仍应剔除。
+			if len(res.Chain) == 0 && strings.Count(host, ".") >= 3 && !anyIPInCDN(db, res.IPs) {
+				res.Reason = "多 DNS 不一致，但无 CNAME 且 IP 均不在 CDN 段（判为自建多出口/GSLB）"
 				return res
 			}
 			res.IsCDN = true
@@ -391,6 +403,16 @@ func judge(r *MultiResolver, db *IPDB, hc *HTTPOracle, host string, showHeaders 
 
 	res.Reason = "四维度均未命中 CDN 特征"
 	return res
+}
+
+// anyIPInCDN 判断这组 IP 里是否有任意一个落在已知 CDN 网段库。
+func anyIPInCDN(db *IPDB, ips []string) bool {
+	for _, ip := range ips {
+		if db.Lookup(ip) != "" {
+			return true
+		}
+	}
+	return false
 }
 
 // sameRegistrableDomain 判断 target 是否落在 host 的注册域内。

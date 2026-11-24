@@ -82,6 +82,16 @@ var cdnSignatures = []cdnSig{
 	{"奇安信云WAF", []string{
 		".qaxcloudwaf.com",
 	}},
+	{"B站自建CDN", []string{
+		".bilicdn1.com",
+		".hdslb.com",
+		".biliapi.net",
+	}},
+	{"网易企业邮箱", []string{
+		".qiye.163.com",
+		".ntes53.netease.com",
+		".qiye.ntes53.netease.com",
+	}},
 	{"网宿科技", []string{
 		".wscdns.com",
 		".wscloudcdn.com",
